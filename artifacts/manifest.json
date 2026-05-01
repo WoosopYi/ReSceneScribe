@@ -1,0 +1,26 @@
+{
+  "release": "v0.1-artifacts",
+  "repository": "WoosopYi/ReSceneScribe",
+  "large_artifacts": [
+    {
+      "name": "town03_4dashcam_collision_3dgs_45000.ply",
+      "description": "Final clean hybrid Gaussian/RGB collision-state PLY.",
+      "bytes": 295430851,
+      "size_mib": 281.74,
+      "sha256": "cb0edd5028bc8d81ebcc8a557b39c4a4008ed74226beb486cd8dbd5a1bd1bc55",
+      "distribution": "GitHub Release asset"
+    }
+  ],
+  "tracked_viewer_assets": [
+    {
+      "name": "viewer_assets/four_vehicle_static_lidar_background.glb",
+      "bytes": 16800960,
+      "sha256": "f8f30a25769c661791be800f9d44aaeb35a46d53e3c52283763aa1e2abc770db"
+    },
+    {
+      "name": "viewer_assets/four_vehicle_static_lidar_background_ultra.glb",
+      "bytes": 35200960,
+      "sha256": "4b68c5715028212f181468bd9fc962dadd9fc8ff281dfe7204e6d2b1ad9f1df8"
+    }
+  ]
+}

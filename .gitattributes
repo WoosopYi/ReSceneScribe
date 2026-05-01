@@ -1,0 +1,8 @@
+*.glb binary
+*.jpg binary
+*.png binary
+*.pdf binary
+*.ply binary
+*.tex text
+*.md text
+*.py text
