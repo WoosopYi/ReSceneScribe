@@ -1,11 +1,11 @@
 cff-version: 1.2.0
-message: "If you use this repository, please cite the accompanying ReSceneScribe manuscript and the DeepAccident benchmark."
-title: "ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from Vehicle-Mounted Cameras and Multi-Agent Simulation for Evidence-Grounded Investigation"
+message: "If you use this repository, please cite this software repository and the DeepAccident benchmark."
+title: "ReSceneScribe: Camera-Only 3D Accident Scene Reconstruction from Vehicle-Mounted RGB Videos with Calibration-Constrained Replay"
 authors:
   - family-names: Lee
     given-names: Woosup
   - family-names: Kim
     given-names: Yongmin
 repository-code: "https://github.com/WoosopYi/ReSceneScribe"
-date-released: "2026-05-01"
-version: "0.1.0"
+date-released: "2026-05-16"
+version: "0.2.0-camera-only"

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Metric Scale Alignment",
+  "type": "object",
+  "required": ["schema_version", "case_id", "scale_constraints", "alignment"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "case_id": {"type": "string"},
+    "scale_constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["constraint_id", "type", "value_m", "source"],
+        "properties": {
+          "constraint_id": {"type": "string"},
+          "type": {"type": "string"},
+          "value_m": {"type": "number"},
+          "source": {"type": "string"},
+          "frame_indices": {"type": "array", "items": {"type": "integer"}},
+          "uncertainty_m": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "alignment": {
+      "type": "object",
+      "required": ["scale_factor", "residual_m", "status"],
+      "properties": {
+        "scale_factor": {"type": "number"},
+        "residual_m": {"type": "number"},
+        "status": {"type": "string"}
+      }
+    }
+  }
+}

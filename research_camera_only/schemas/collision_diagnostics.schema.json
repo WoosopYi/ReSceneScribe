@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Collision Diagnostics",
+  "type": "object",
+  "required": ["schema_version", "case_id", "vehicle_pair", "frames", "best_frame"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "case_id": {"type": "string"},
+    "vehicle_pair": {"type": "array", "items": {"type": "string"}},
+    "frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["frame_index", "obb_gap_m", "center_distance_m", "overlap"],
+        "properties": {
+          "frame_index": {"type": "integer"},
+          "obb_gap_m": {"type": "number"},
+          "center_distance_m": {"type": "number"},
+          "overlap": {"type": "boolean"}
+        }
+      }
+    },
+    "best_frame": {
+      "type": "object",
+      "required": ["frame_index", "obb_gap_m", "center_distance_m", "overlap"],
+      "properties": {
+        "frame_index": {"type": "integer"},
+        "obb_gap_m": {"type": "number"},
+        "center_distance_m": {"type": "number"},
+        "overlap": {"type": "boolean"}
+      }
+    },
+    "scale_alignment_path": {"type": ["string", "null"]},
+    "uncertainty_note": {"type": "string"}
+  }
+}

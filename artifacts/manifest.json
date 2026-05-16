@@ -1,26 +1,49 @@
 {
-  "release": "v0.1-artifacts",
+  "release": "v0.2-camera-only",
   "repository": "WoosopYi/ReSceneScribe",
-  "large_artifacts": [
+  "primary_result": {
+    "case_id": "town04_type1_subtype2_slam3r_incremental_layers",
+    "scenario": "Town04_type001_subtype0002_scenario00017",
+    "category": "type1_subtype2_accident",
+    "primary_sensor_path": "vehicle-mounted RGB cameras plus calibration",
+    "lidar_used": false,
+    "legacy_lidar_assets_used": false,
+    "base_point_count": 545306,
+    "final_point_count": 1508944
+  },
+  "tracked_policy": {
+    "tracks_generated_glb": false,
+    "tracks_generated_images": false,
+    "tracks_raw_dataset": false,
+    "tracks_model_weights": false,
+    "tracks_research_docs_and_code": true,
+    "tracks_paper_files": false
+  },
+  "tracked_research_records": [
+    "README.md",
+    "QUICKSTART.md",
+    "docs/camera_only_success_results_full_ko.md",
+    "docs/method_summary.md",
+    "docs/dataset.md",
+    "docs/artifacts.md",
+    "research_camera_only/reports/completion_audit.md",
+    "research_camera_only/reports/evidence_report.md",
+    "research_camera_only/reports/validation_checklist.md"
+  ],
+  "generated_not_tracked": [
+    "outputs/town04_type1_subtype2_slam3r_incremental_layers/**/*.glb",
+    "outputs/town04_type1_subtype2_slam3r_incremental_layers/**/*.png",
+    "outputs/town04_type1_subtype2_slam3r_incremental_layers/viewer/",
+    "outputs/town04_type1_subtype2_slam3r_reconstruction/",
+    "viewer_frames/",
+    "viewer_assets/*.glb",
+    "paper/"
+  ],
+  "legacy_lidar_artifacts": [
     {
       "name": "town03_4dashcam_collision_3dgs_45000.ply",
-      "description": "Final clean hybrid Gaussian/RGB collision-state PLY.",
-      "bytes": 295430851,
-      "size_mib": 281.74,
-      "sha256": "cb0edd5028bc8d81ebcc8a557b39c4a4008ed74226beb486cd8dbd5a1bd1bc55",
-      "distribution": "GitHub Release asset"
-    }
-  ],
-  "tracked_viewer_assets": [
-    {
-      "name": "viewer_assets/four_vehicle_static_lidar_background.glb",
-      "bytes": 16800960,
-      "sha256": "f8f30a25769c661791be800f9d44aaeb35a46d53e3c52283763aa1e2abc770db"
-    },
-    {
-      "name": "viewer_assets/four_vehicle_static_lidar_background_ultra.glb",
-      "bytes": 35200960,
-      "sha256": "4b68c5715028212f181468bd9fc962dadd9fc8ff281dfe7204e6d2b1ad9f1df8"
+      "description": "Legacy Town03 LiDAR/RGB hybrid PLY, retained only as historical reference material when available externally.",
+      "distribution": "not tracked in the camera-only repository update"
     }
   ]
 }

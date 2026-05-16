@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vehicle Proxy Tracks",
+  "type": "object",
+  "required": ["schema_version", "case_id", "vehicles"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "case_id": {"type": "string"},
+    "vehicles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["vehicle_id", "dimensions_m", "poses"],
+        "properties": {
+          "vehicle_id": {"type": "string"},
+          "dimensions_m": {
+            "type": "object",
+            "required": ["length", "width", "height"],
+            "properties": {
+              "length": {"type": "number"},
+              "width": {"type": "number"},
+              "height": {"type": "number"}
+            }
+          },
+          "pose_source": {"type": "string"},
+          "poses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["frame_index", "x_m", "y_m", "yaw_rad"],
+              "properties": {
+                "frame_index": {"type": "integer"},
+                "x_m": {"type": "number"},
+                "y_m": {"type": "number"},
+                "yaw_rad": {"type": "number"},
+                "uncertainty_m": {"type": ["number", "null"]}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

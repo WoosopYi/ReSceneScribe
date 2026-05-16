@@ -1,62 +1,82 @@
 # Quickstart
 
-## Open the packaged replay
+## Rebuild The Camera-Only Result
 
 ```bash
 git clone https://github.com/WoosopYi/ReSceneScribe.git
 cd ReSceneScribe
+```
+
+The repository tracks code, Korean/English research summaries, and lightweight
+validation structure. Paper files, generated GLB meshes, and preview images are
+not committed.
+
+## What The Documented Result Contains
+
+| Artifact | Path |
+|---|---|
+| Main research summary | `docs/camera_only_success_results_full_ko.md` |
+| Method summary | `docs/method_summary.md` |
+| Camera-only research track | `research_camera_only/README.md` |
+| Evidence report | `research_camera_only/reports/evidence_report.md` |
+| Pipeline implementation | `scripts/run_town04_camera_only_final_pipeline.py` |
+
+## Rebuild The Camera-Only Pipeline
+
+Install baseline Python dependencies:
+
+```bash
+python3 -m venv .venv-camera-only
+. .venv-camera-only/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Set the local DeepAccident root:
+
+```bash
+export DEEPACCIDENT_ROOT=/path/to/deepaccident_mini_dataset
+```
+
+Prepare RGB frames, masks, calibration exports, and replay metadata:
+
+```bash
+make camera-export
+```
+
+Run the SLAM3R camera-only base reconstruction:
+
+```bash
+make camera-slam3r
+```
+
+Build the incremental cumulative scene:
+
+```bash
+make camera-layers
+```
+
+The heavy reconstruction path requires CUDA and a local `third_party/SLAM3R`
+checkout. After the pipeline finishes, serve the generated viewer locally:
+
+```bash
 python3 scripts/serve_viewer.py --port 8132
 ```
 
-Open:
+Then open:
 
 ```text
-http://127.0.0.1:8132/viewer/index.html?quality=ultra&trail
+http://127.0.0.1:8132/outputs/town04_type1_subtype2_slam3r_incremental_layers/viewer/index.html
 ```
 
-## Download the large PLY artifact
+## Legacy Town03 LiDAR Path
 
-The PLY is distributed as a release asset:
+The older Town03 LiDAR-camera fusion scripts remain available under explicit
+legacy make targets:
 
 ```bash
-mkdir -p outputs
-gh release download v0.1-artifacts \
-  --repo WoosopYi/ReSceneScribe \
-  --pattern 'town03_4dashcam_collision_3dgs_45000.ply' \
-  --dir outputs
+make legacy-rebuild-viewer
+make legacy-rebuild-ply
 ```
 
-Verify it:
-
-```bash
-python3 scripts/verify_ply.py outputs/town03_4dashcam_collision_3dgs_45000.ply
-sha256sum outputs/town03_4dashcam_collision_3dgs_45000.ply
-```
-
-Expected SHA-256:
-
-```text
-cb0edd5028bc8d81ebcc8a557b39c4a4008ed74226beb486cd8dbd5a1bd1bc55
-```
-
-## Rebuild from a local DeepAccident copy
-
-```bash
-python3 -m venv .venv
-. .venv/bin/activate
-python -m pip install -r requirements.txt
-export DEEPACCIDENT_ROOT=/path/to/deepaccident_mini_dataset
-make rebuild-viewer
-make rebuild-ply
-```
-
-The rebuild commands assume the local dataset contains:
-
-```text
-type1_subtype1_accident/
-├── ego_vehicle/
-├── ego_vehicle_behind/
-├── other_vehicle/
-├── other_vehicle_behind/
-└── meta/
-```
+Those outputs are reference/readability material, not the main camera-only
+claim of the current repository.

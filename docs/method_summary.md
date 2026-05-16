@@ -1,75 +1,99 @@
 # Method Summary
 
-ReSceneScribe separates accident reconstruction into two linked outputs:
+ReSceneScribe is now organized around a camera-first accident reconstruction
+path. The method produces two linked outputs:
 
-1. A temporal web replay for human interpretation.
-2. A collision-state hybrid Gaussian/RGB PLY for reusable 3D inspection.
+1. A static RGB-derived 3D accident environment.
+2. A calibration-constrained replay with dimension-aware vehicle proxies.
 
-## Static-dynamic decomposition
+The previous Town03 LiDAR-camera fusion result is retained only as legacy
+readability/reference material.
 
-The static road environment and dynamic vehicles are handled separately. Static
-background points are fused from all four DeepAccident vehicle agents after
-removing points inside moving-object and target-vehicle boxes. This prevents
-moving vehicles from becoming repeated ghost geometry in the road background.
+## Camera-Only Static Reconstruction
 
-## Shared metric alignment
+The primary input is synchronized vehicle-mounted RGB video. In the successful
+Town04 experiment, the pipeline uses:
 
-Each LiDAR point is transformed into the CARLA world coordinate using:
+- 4 vehicle agents,
+- 6 RGB cameras per vehicle,
+- 49 frames per camera stream,
+- 1176 total RGB views,
+- DeepAccident calibration for camera/world placement.
 
-```text
-p_world = ego_to_world @ lidar_to_ego @ p_lidar_homogeneous
-```
+SLAM3R predicts RGB point maps and confidence maps from camera streams. The
+accepted points are placed into the shared DeepAccident world through calibrated
+camera poses and stream scale alignment. Dynamic masks are used when available;
+unmasked frames are admitted only under stricter confidence and alignment
+filters.
 
-For the browser replay, the CARLA world is converted to the Three.js coordinate
-system:
+The primary path does not read:
 
-```text
-viewer X = CARLA X
-viewer Y = CARLA Z / up
-viewer Z = CARLA Y
-```
+- `lidar01` point clouds,
+- historical LiDAR-derived PLY/GLB assets,
+- simulator map meshes,
+- proxy meshes as background geometry.
 
-## Vehicle-local motion compensation
+## Metric Alignment
 
-Vehicle geometry is reconstructed by collecting points inside each target
-vehicle oriented bounding box. These points are transformed into the
-vehicle-local frame, accumulated over frames and observing agents,
-voxel-downsampled, and then transformed back to the final collision pose.
-
-This avoids accumulating a moving vehicle directly in world coordinates, which
-would create a trajectory-shaped vehicle trail.
-
-## Collision diagnostics
-
-The collision pair is validated with oriented bounding box overlap on the
-ground plane. In the packaged scenario:
+DeepAccident calibration is used as a metric prior. For a camera ray associated
+with an RGB point-map prediction, the implementation places the point with the
+calibrated camera-to-world transform:
 
 ```text
-overlap source frames: 054, 055, 056
-selected collision-state frame: 056
-final OBB gap: -0.447944 m
-final center distance: 4.229926 m
+p_world = camera_to_world @ camera_ray_depth_from_rgb_prediction
 ```
 
-A negative OBB gap means the two selected vehicle boxes overlap in the shared
-metric world and is used as a geometric collision/contact proxy.
+The calibration files contain matrices with names such as `lidar_to_Camera_*`.
+In this camera-only path those matrices are used to recover camera extrinsics;
+LiDAR point geometry itself is not loaded.
 
-## Hybrid Gaussian/RGB PLY
+## Incremental Layering
 
-The final PLY keeps standard RGB point-cloud fields and adds fields commonly
-used by 3D Gaussian Splatting viewers:
+The base camera-only reconstruction is preserved as an immutable good result.
+Additional layers reuse saved SLAM3R RGB point maps and calibration, but a new
+point is accepted only if its 0.08 m voxel is not already occupied in the
+cumulative scene.
+
+Successful cumulative stages:
+
+| Stage | New points | Cumulative points |
+|---|---:|---:|
+| `00_base` | 545,306 | 545,306 |
+| `01_01_masked_dense` | 541,877 | 1,087,183 |
+| `02_02_all_aligned_frames` | 303,076 | 1,390,259 |
+| `03_03_strict_extra_streams` | 118,685 | 1,508,944 |
+
+This strategy expands urban and road context without damaging the reliable
+base layer.
+
+## Vehicle Replay
+
+Dynamic vehicles are not claimed as fully reconstructed video-derived surfaces.
+They are rendered as car-like calibrated proxies driven by frame-wise
+`ego_to_world` poses and vehicle dimensions from the dataset context.
+
+The proxy model contains body, hood, trunk, cabin, windows, bumpers, wheels,
+lights, and trim. Its purpose is to make the accident process readable while
+preserving pose, scale, and direction.
+
+## Diagnostics
+
+The diagnostic layer reports structured replay context:
 
 ```text
-x, y, z,
-nx, ny, nz,
-f_dc_0, f_dc_1, f_dc_2,
-f_rest_0 ... f_rest_44,
-opacity,
-scale_0, scale_1, scale_2,
-rot_0, rot_1, rot_2, rot_3,
-red, green, blue
+closest frame: 49
+closest pair: ego_vehicle_behind / other_vehicle
+center distance XY: 4.1956 m
+proxy clearance XY: -0.6842 m
 ```
 
-The file is a deterministic LiDAR-camera fusion output with
-Gaussian-compatible fields. It is not a fully optimized vanilla 3DGS training
-checkpoint.
+A negative proxy clearance means the simplified vehicle footprints overlap in
+the calibrated replay. It is an interpretation diagnostic, not a physical
+crash-force model or legal proof of impact.
+
+## Optional LiDAR Readability Reference
+
+LiDAR-assisted renderings can still help explain road and city layout because
+they are visually cleaner in low-texture regions. They should be described as
+readability/reference visualizations only. The deployment claim and primary
+reconstruction path are grounded in RGB videos and calibration.

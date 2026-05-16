@@ -16,7 +16,7 @@ import trimesh
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get('RESCENESCRIBE_OUTPUT_ROOT', REPO_ROOT)).expanduser().resolve()
-DATASET = Path(os.environ.get('DEEPACCIDENT_ROOT', '/home/elicer/deepaccident_mini_dataset')).expanduser().resolve()
+DATASET = Path(os.environ.get('DEEPACCIDENT_ROOT', REPO_ROOT / 'deepaccident_mini_dataset')).expanduser().resolve()
 _SOURCE_VIEWER_ENV = os.environ.get('RESCENESCRIBE_SOURCE_VIEWER')
 SOURCE_VIEWER = Path(_SOURCE_VIEWER_ENV).expanduser() if _SOURCE_VIEWER_ENV else None
 CATEGORY = os.environ.get('DEEPACCIDENT_CATEGORY', 'type1_subtype1_accident')
@@ -543,12 +543,12 @@ def copy_three_vendor() -> None:
         shutil.copytree(src_vendor, vendor)
         return
 
-    # Fallback to local MONST3R node_modules.
-    three_src = Path('/home/elicer/workspace/monst3r/viser/src/viser/client/node_modules/three')
+    # Optional fallback for environments that keep Three.js outside this repo.
+    three_src = Path(os.environ.get('THREE_ROOT', '')).expanduser()
     if not three_src.exists():
         raise FileNotFoundError(
             'Three.js vendor files were not found. Keep viewer/vendor in the repo, '
-            'set RESCENESCRIBE_SOURCE_VIEWER, or install/copy three.js into the output viewer/vendor directory.'
+            'set RESCENESCRIBE_SOURCE_VIEWER, set THREE_ROOT, or install/copy three.js into the output viewer/vendor directory.'
         )
     (vendor / 'three/build').mkdir(parents=True, exist_ok=True)
     (vendor / 'three/examples/jsm/controls').mkdir(parents=True, exist_ok=True)

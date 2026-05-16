@@ -1,63 +1,72 @@
 # Artifacts
 
-## Packaged viewer assets
+## Camera-Only Result Policy
 
-The interactive replay assets are tracked in git so a clone can open the viewer
-without rebuilding from DeepAccident.
+The current repository tracks the successful Town04 camera-only method,
+research summaries, validation scaffolding, and reproduction scripts. Paper
+files, generated GLB meshes, preview images, and viewer outputs are
+intentionally not committed.
 
-| File | Size | SHA-256 |
-|---|---:|---|
-| `viewer_assets/four_vehicle_static_lidar_background.glb` | 16,800,960 bytes | `f8f30a25769c661791be800f9d44aaeb35a46d53e3c52283763aa1e2abc770db` |
-| `viewer_assets/four_vehicle_static_lidar_background_ultra.glb` | 35,200,960 bytes | `4b68c5715028212f181468bd9fc962dadd9fc8ff281dfe7204e6d2b1ad9f1df8` |
+| File | Purpose |
+|---|---|
+| `docs/camera_only_success_results_full_ko.md` | Detailed successful-result record |
+| `docs/method_summary.md` | Method summary |
+| `research_camera_only/README.md` | Camera-only research track overview |
+| `research_camera_only/reports/` | Validation and evidence notes |
+| `scripts/run_town04_camera_only_final_pipeline.py` | End-to-end pipeline entry point |
 
-The viewer also includes 224 resized front dashcam JPEG frames:
+After local regeneration, open the generated viewer:
+
+```bash
+python3 scripts/serve_viewer.py --port 8132
+```
 
 ```text
-4 agents x 56 frames = 224 frames
+http://127.0.0.1:8132/outputs/town04_type1_subtype2_slam3r_incremental_layers/viewer/index.html
 ```
 
-## Large PLY release asset
-
-The final collision-state PLY is not tracked in git because it is larger than
-GitHub's regular file-size limit.
-
-| File | Size | SHA-256 |
-|---|---:|---|
-| `town03_4dashcam_collision_3dgs_45000.ply` | 295,430,851 bytes / 281.74 MiB | `cb0edd5028bc8d81ebcc8a557b39c4a4008ed74226beb486cd8dbd5a1bd1bc55` |
-
-Download after the release is available:
-
-```bash
-mkdir -p outputs
-gh release download v0.1-artifacts \
-  --repo WoosopYi/ReSceneScribe \
-  --pattern 'town03_4dashcam_collision_3dgs_45000.ply' \
-  --dir outputs
-```
-
-Verify:
-
-```bash
-python3 scripts/verify_ply.py outputs/town03_4dashcam_collision_3dgs_45000.ply --hash
-```
-
-Expected structural values:
+## Camera-Only Result Metrics
 
 | Metric | Value |
 |---|---:|
-| Vertices | 1,177,009 |
-| Vertex properties | 65 |
-| Static background points | 1,100,000 |
-| Vehicle points | 77,009 |
-| RGB fields | yes |
-| 3DGS-compatible fields | yes |
+| Base points | 545,306 |
+| Final cumulative points | 1,508,944 |
+| Added points | 963,638 |
+| Stages | 4 |
+| Additive layers | 3 |
+| RGB views | 1176 |
+| Vehicle tracks | 4 |
+| Track samples per vehicle | 49 |
+| LiDAR point cloud used | false |
+| Legacy LiDAR assets used | false |
 
-Segment order:
+## Files Not Tracked
 
-| Segment | Index range | Count |
-|---|---:|---:|
-| Static background | `0`-`1,099,999` | 1,100,000 |
-| `ego_vehicle` | `1,100,000`-`1,128,978` | 28,979 |
-| `ego_vehicle_behind` | `1,128,979`-`1,137,002` | 8,024 |
-| `other_vehicle` | `1,137,003`-`1,165,891` | 28,889 |
-| `other_vehicle_behind` | `1,165,892`-`1,177,008` | 11,117 |
+The following are intentionally excluded from git:
+
+- raw DeepAccident data,
+- `deepaccident_mini_dataset_download/`,
+- `.venv-camera-only/`,
+- `third_party/SLAM3R` and other third-party checkouts,
+- full training logs and checkpoints,
+- generated `outputs/` subtrees including GLB meshes, viewer files, replay JSON,
+  diagnostics JSON, and preview images,
+- `paper/` manuscripts, PDFs, and translation files,
+- tracked image files such as `.png`, `.jpg`, `.jpeg`, and `.webp`,
+- tracked `.glb` scene files,
+- model weights such as YOLO `.pt` files.
+
+## Legacy LiDAR Artifacts
+
+The old Town03 LiDAR-camera viewer assets remain in git history only. They are
+not part of the current tracked repository surface:
+
+| File | Legacy role |
+|---|---|
+| `viewer_assets/four_vehicle_static_lidar_background.glb` | Town03 static LiDAR background |
+| `viewer_assets/four_vehicle_static_lidar_background_ultra.glb` | Town03 high-density static LiDAR background |
+| `town03_4dashcam_collision_3dgs_45000.ply` | Legacy LiDAR/RGB hybrid release artifact |
+
+These files are not the main method in the current repository. They should be
+described, when needed, as LiDAR-assisted readability/reference visualizations
+from the earlier study.

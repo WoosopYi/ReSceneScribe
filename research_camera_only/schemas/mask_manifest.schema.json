@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReSceneScribe Camera-Only Mask Manifest",
+  "type": "object",
+  "required": ["schema_version", "case_id", "source", "frames"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "case_id": {"type": "string"},
+    "source": {
+      "type": "object",
+      "required": ["kind", "path", "lidar_used"],
+      "properties": {
+        "kind": {"type": "string"},
+        "path": {"type": "string"},
+        "camera": {"type": "string"},
+        "lidar_used": {"type": "boolean"}
+      }
+    },
+    "frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agent", "frame_index", "rgb_path", "mask_status", "dynamic_classes", "qa_status"],
+        "properties": {
+          "agent": {"type": "string"},
+          "frame_index": {"type": "integer"},
+          "source_frame": {"type": "string"},
+          "rgb_path": {"type": "string"},
+          "mask_path": {"type": ["string", "null"]},
+          "mask_status": {"type": "string"},
+          "dynamic_classes": {"type": "array", "items": {"type": "string"}},
+          "qa_status": {"type": "string"},
+          "timestamp_s": {"type": ["number", "null"]}
+        }
+      }
+    }
+  }
+}

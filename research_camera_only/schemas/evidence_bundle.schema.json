@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Camera-Only Evidence Bundle",
+  "type": "object",
+  "required": ["schema_version", "case_id", "inputs", "reconstruction", "replay", "reporting"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "case_id": {"type": "string"},
+    "inputs": {
+      "type": "object",
+      "required": ["mask_manifest", "lidar_used"],
+      "properties": {
+        "mask_manifest": {"type": "string"},
+        "lidar_used": {"type": "boolean"}
+      }
+    },
+    "reconstruction": {
+      "type": "object",
+      "properties": {
+        "cameras": {"type": "string"},
+        "points": {"type": "string"},
+        "reprojection_report": {"type": "string"},
+        "scale_alignment": {"type": "string"}
+      }
+    },
+    "replay": {
+      "type": "object",
+      "properties": {
+        "vehicle_tracks": {"type": "string"},
+        "vehicle_dimensions": {"type": "string"},
+        "collision_diagnostics": {"type": "string"}
+      }
+    },
+    "reporting": {
+      "type": "object",
+      "properties": {
+        "evidence_report": {"type": "string"},
+        "limitations": {"type": "string"}
+      }
+    }
+  }
+}

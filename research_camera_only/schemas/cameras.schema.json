@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Camera-Only Reconstruction Cameras",
+  "type": "object",
+  "required": ["schema_version", "case_id", "backend", "cameras"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "case_id": {"type": "string"},
+    "backend": {"type": "string"},
+    "cameras": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["camera_id", "frame_index", "intrinsic", "extrinsic", "pose_status"],
+        "properties": {
+          "camera_id": {"type": "string"},
+          "frame_index": {"type": "integer"},
+          "intrinsic": {"type": "array"},
+          "extrinsic": {"type": "array"},
+          "pose_status": {"type": "string"},
+          "reprojection_error_px": {"type": ["number", "null"]}
+        }
+      }
+    }
+  }
+}

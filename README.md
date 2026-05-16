@@ -1,167 +1,182 @@
 # ReSceneScribe
 
-Static-dynamic 3D accident reconstruction from vehicle-mounted cameras and
-multi-agent simulation for evidence-grounded investigation.
+Camera-first 3D accident scene reconstruction from vehicle-mounted RGB videos
+with calibration-constrained multi-vehicle replay.
 
-This repository accompanies the conference manuscript:
+This repository now tracks the camera-only ReSceneScribe result:
 
-> ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from
-> Vehicle-Mounted Cameras and Multi-Agent Simulation for Evidence-Grounded
-> Investigation
+> ReSceneScribe: Camera-Only 3D Accident Scene Reconstruction from
+> Vehicle-Mounted RGB Videos with Calibration-Constrained Replay
 
-## What is in this repository
+## What Is New
 
-ReSceneScribe packages the successful DeepAccident Town03 four-vehicle
-collision reconstruction outputs:
+The main branch has been reorganized around the successful DeepAccident Town04
+dashcam/RGB reconstruction experiment. The primary reconstruction path uses:
 
-- an interactive Three.js replay of the four-vehicle accident process,
-- scripts that rebuild the replay from a local DeepAccident mini dataset,
-- scripts that rebuild the clean hybrid Gaussian/RGB PLY,
-- paper-ready methodology notes and the final PDF artifact,
-- checksums and verification tools for the large reconstruction assets.
+- vehicle-mounted RGB frames,
+- DeepAccident calibration for camera/world placement and replay,
+- dynamic masks when available,
+- SLAM3R RGB point-map prediction,
+- conservative incremental point layering,
+- calibrated car-like proxy vehicles for the dynamic accident replay.
 
-The repository intentionally does not include the raw DeepAccident dataset.
-Users who want to rebuild the assets must download or mount their own
-DeepAccident-compatible dataset copy.
+The primary path does not read `lidar01` point clouds, historical LiDAR PLY/GLB
+outputs, simulator map meshes, or legacy viewer assets as reconstruction
+geometry.
 
-## Live / local viewer
+## Main Result
 
-After cloning, the replay can be opened through any local HTTP server:
+| Item | Value |
+|---|---:|
+| Dataset split | `type1_subtype2_accident` |
+| Scenario | `Town04_type001_subtype0002_scenario00017` |
+| Agents | `4` vehicles |
+| Cameras | `6` RGB cameras per vehicle |
+| RGB frames | `1176` |
+| Base backend | `slam3r_camera_ray_depth_calibrated` |
+| Base point count | `545,306` |
+| Incremental final point count | `1,508,944` |
+| Added points through layering | `963,638` |
+| Base accepted streams | `10 / 24` |
+| Base alignment RMSE | `1.4469 m` |
+| Vehicle replay samples | `49` per vehicle |
+| Closest proxy diagnostic | frame `49`, clearance `-0.6842 m` |
+| LiDAR point cloud used in primary path | `false` |
+
+## Rebuild Or Inspect The Camera-Only Result
+
+This repository does not track generated GLB meshes, preview images, or paper
+files. The successful Town04 result is documented in `docs/` and
+`research_camera_only/`; the heavy visual artifacts are regenerated locally from
+the pipeline.
+
+The GitHub Pages entry point is a lightweight project landing page:
+
+```text
+https://woosopyi.github.io/ReSceneScribe/
+```
+
+After regenerating the outputs, serve the local viewer:
 
 ```bash
-python3 -m http.server 8132
+python3 scripts/serve_viewer.py --port 8132
 ```
 
 Then open:
 
 ```text
-http://127.0.0.1:8132/viewer/index.html?quality=ultra&trail
+http://127.0.0.1:8132/outputs/town04_type1_subtype2_slam3r_incremental_layers/viewer/index.html
 ```
 
-The viewer included in git contains:
+The generated viewer shows the cumulative camera-only point scene, additive
+layers, four calibrated vehicle tracks, and car-like proxy vehicles. Raw
+DeepAccident data, generated GLB/image artifacts, and heavy model checkpoints
+are not included in git.
 
-- 56 synchronized replay frames,
-- 4 vehicle trajectories,
-- a 1.05M-point regular static LiDAR GLB,
-- a 2.2M-point ultra static LiDAR GLB,
-- synchronized front dashcam panels for all four vehicle agents.
-
-## Key scenario facts
-
-| Item | Value |
-|---|---:|
-| Scenario | `Town03_type001_subtype0001_scenario00024` |
-| Weather | `MidRainSunset` |
-| Available frames | `001`-`056` |
-| Collision overlap frames | `054`-`056` |
-| Selected collision-state frame | `056` |
-| Final OBB gap | `-0.447944 m` |
-| Final center distance | `4.229926 m` |
-| Viewer regular / ultra background | `1,050,000` / `2,200,000` points |
-| Dynamic vehicle points removed from viewer background | `312,543` |
-| Final hybrid PLY vertices | `1,177,009` |
-
-## Repository layout
+## Repository Layout
 
 ```text
 .
 ├── README.md
 ├── QUICKSTART.md
 ├── Makefile
-├── requirements.txt
-├── artifacts/
-│   └── manifest.json
 ├── docs/
-│   ├── artifacts.md
-│   ├── dataset.md
 │   ├── method_summary.md
+│   ├── dataset.md
+│   ├── artifacts.md
+│   ├── camera_only_success_results_full_ko.md
 │   └── research_success_results_ko.md
-├── paper/
-│   ├── ReSceneScribe_IEEE.tex
-│   └── final_pdf/
-├── previews/
-│   └── four_vehicle_topdown_plan.png
+├── research_camera_only/
+│   ├── README.md
+│   ├── pipeline_design.md
+│   ├── reports/
+│   └── schemas/
 ├── scripts/
-│   ├── build_four_vehicle_collision_viewer.py
-│   ├── build_town03_clean_hybrid_gaussian_ply.py
-│   ├── prepare_town03_3dgs_dataset.py
-│   ├── prepare_town03_3dgs_masked_static_dataset.py
-│   ├── serve_viewer.py
-│   └── verify_ply.py
-├── viewer/
-├── viewer_assets/
-└── viewer_frames/
+│   ├── run_multicam_world_reconstruction.py
+│   ├── run_slam3r_deepaccident_reconstruction.py
+│   ├── build_slam3r_incremental_layers.py
+│   └── run_town04_camera_only_final_pipeline.py
+└── viewer/
+    └── vendor/three/
 ```
 
-## Rebuild from DeepAccident
+## Rebuild From DeepAccident
 
-Install dependencies:
+The rebuild path expects a local DeepAccident-compatible copy. Raw data are not
+redistributed in this repository.
 
 ```bash
-python3 -m venv .venv
-. .venv/bin/activate
+python3 -m venv .venv-camera-only
+. .venv-camera-only/bin/activate
 python -m pip install -r requirements.txt
-```
-
-Set the dataset root:
-
-```bash
 export DEEPACCIDENT_ROOT=/path/to/deepaccident_mini_dataset
 ```
 
-Rebuild the web replay:
+Prepare the known-pose RGB/mask export:
 
 ```bash
-python scripts/build_four_vehicle_collision_viewer.py \
+python scripts/run_multicam_world_reconstruction.py \
   --dataset "$DEEPACCIDENT_ROOT" \
-  --output-root .
-```
-
-Rebuild the collision-state hybrid Gaussian/RGB PLY:
-
-```bash
-python scripts/build_town03_clean_hybrid_gaussian_ply.py \
-  --dataset "$DEEPACCIDENT_ROOT" \
-  --out outputs/town03_4dashcam_collision_3dgs_45000.ply \
+  --category type1_subtype2_accident \
+  --scenario Town04_type001_subtype0002_scenario00017 \
+  --out outputs/town04_type1_subtype2_multicam_export \
   --frame-start 1 \
-  --frame-end 56 \
-  --static-limit 1100000 \
-  --vehicle-limit-each 120000 \
-  --static-voxel 0.050 \
-  --vehicle-voxel 0.025 \
-  --stats outputs/town03_4dashcam_collision_3dgs_45000.stats.json
+  --frame-end 49 \
+  --frame-step 1
 ```
 
-## Large artifact handling
+Run the SLAM3R camera-only base reconstruction:
 
-The final PLY is about 281.74 MiB, which is larger than GitHub's normal
-single-file git limit. It is published as a GitHub Release asset rather than
-tracked directly in git.
+```bash
+python scripts/run_slam3r_deepaccident_reconstruction.py \
+  --dataset "$DEEPACCIDENT_ROOT" \
+  --category type1_subtype2_accident \
+  --scenario Town04_type001_subtype0002_scenario00017 \
+  --mask-export outputs/town04_type1_subtype2_multicam_export \
+  --out outputs/town04_type1_subtype2_slam3r_reconstruction \
+  --slam3r-root third_party/SLAM3R
+```
 
-See [docs/artifacts.md](docs/artifacts.md) for checksums, expected file names,
-and verification commands.
+Build the incremental layers:
 
-## Paper materials
+```bash
+python scripts/build_slam3r_incremental_layers.py \
+  --dataset "$DEEPACCIDENT_ROOT" \
+  --source outputs/town04_type1_subtype2_slam3r_reconstruction \
+  --mask-export outputs/town04_type1_subtype2_multicam_export \
+  --out outputs/town04_type1_subtype2_slam3r_incremental_layers \
+  --slam3r-root third_party/SLAM3R
+```
 
-The paper source is in [paper/ReSceneScribe_IEEE.tex](paper/ReSceneScribe_IEEE.tex).
-The generated final PDF artifact is archived under [paper/final_pdf](paper/final_pdf).
+SLAM3R execution requires a CUDA-capable environment and an installed SLAM3R
+checkout. Generated GLB meshes, preview images, and viewer outputs are kept out
+of git and can be rebuilt with the commands above.
+
+## Legacy LiDAR Material
+
+Earlier ReSceneScribe artifacts reconstructed a Town03 scene with DeepAccident
+LiDAR-camera fusion and exported a hybrid Gaussian/RGB PLY. Those files remain
+useful as a readability/reference comparison, but they are no longer the main
+deployment claim. The current repository narrative is centered on dashcam/RGB
+reconstruction.
 
 ## Citation
 
-If you use this repository, cite the accompanying ReSceneScribe manuscript and
-the DeepAccident benchmark:
+If you use this repository, cite this software repository and the DeepAccident
+benchmark:
 
 ```bibtex
 @inproceedings{lee2026rescenescribe,
-  title     = {ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from Vehicle-Mounted Cameras and Multi-Agent Simulation for Evidence-Grounded Investigation},
+  title     = {ReSceneScribe: Camera-Only 3D Accident Scene Reconstruction from Vehicle-Mounted RGB Videos with Calibration-Constrained Replay},
   author    = {Lee, Woosup and Kim, Yongmin},
   year      = {2026}
 }
 ```
 
-## Data and license note
+## Data And License Note
 
-Raw DeepAccident data are not redistributed here. Follow the DeepAccident
-dataset terms for data access and citation. A source-code license has not been
-selected in this repository yet; contact the authors before reuse beyond
-review, reproduction, or evaluation of the accompanying manuscript.
+Raw DeepAccident data, heavy model checkpoints, local virtual environments, and
+large training outputs are not redistributed here. Follow the DeepAccident,
+SLAM3R, and any model-specific terms for data access and citation. A source-code
+license has not been selected in this repository yet; contact the authors before
+reuse beyond review, reproduction, or evaluation.

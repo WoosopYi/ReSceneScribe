@@ -1,4 +1,4 @@
-name: rescenescribe
+name: rescenescribe-camera-only
 channels:
   - conda-forge
 dependencies:
@@ -7,4 +7,8 @@ dependencies:
   - pillow
   - plyfile
   - trimesh
+  - opencv
+  - matplotlib
   - pip
+  - pip:
+      - ultralytics>=8.3
