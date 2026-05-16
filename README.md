@@ -196,12 +196,6 @@ benchmark:
 }
 ```
 
-## AI-Assisted Drafting Declaration
-
-The final submission declares that generative AI assistance was used only to
-support visual drafting. The authors reviewed and finalized the figure and take
-responsibility for the scientific content of the work.
-
 ## Data And License Note
 
 Raw DeepAccident data, heavy model checkpoints, local virtual environments, and
