@@ -1,11 +1,17 @@
 # Camera-Only ReSceneScribe Research Track
 
-This folder documents the completed camera-first upgrade of ReSceneScribe. The
-current main claim is:
+This folder documents the completed camera-centered research track for the final
+ReSceneScribe submission:
 
-> ReSceneScribe reconstructs a static 3D accident environment from
-> multi-vehicle RGB dashcam videos, then reintroduces vehicles as
-> calibration-constrained dynamic proxies for replay and geometric diagnostics.
+> ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from
+> Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded
+> Investigation
+
+The current main claim is that vehicle-mounted RGB observations, combined with
+calibration, can produce an interpretable static accident-scene reconstruction
+and a calibration-constrained multi-agent replay. Dynamic vehicles are
+represented as dimension-aware proxies for evidence-grounded simulation and
+diagnostics.
 
 ## Completed Result
 
@@ -59,6 +65,16 @@ Vehicles are represented by car-like calibrated proxies. This preserves pose,
 size, direction, and replay readability without overclaiming full video-derived
 vehicle surface reconstruction.
 
+## Paper Evaluation Roles
+
+The paper includes a physical pilot with two real vehicles and windshield-area
+RGB cameras. That pilot checks capture feasibility for vehicle-mounted visual
+evidence, but it is not used as collision-dynamics or liability validation.
+
+The quantitative reconstruction and replay results in this repository come from
+the controlled DeepAccident Town04 benchmark because it provides synchronized
+RGB observations, calibration, vehicle dimensions, and frame-wise poses.
+
 ## Artifact Map
 
 | Artifact | Purpose |
@@ -73,8 +89,9 @@ vehicle surface reconstruction.
 | `reports/completion_audit.md` | Current completion audit for the camera-only result. |
 | `reports/validation_checklist.md` | Verification gates and residual risks. |
 
-## Legacy Material
+## Supplementary Readability Material
 
 The historical `viewer_assets/` and Town03 hybrid PLY are LiDAR-derived. They
-can be discussed as readability/reference visualizations, but they are not the
-current camera-only evidence layer.
+can be discussed only as supplementary readability/reference visualizations for
+road or city context. They are not the current camera-only evidence layer and
+are not used for the reported Town04 metrics.

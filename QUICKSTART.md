@@ -1,6 +1,6 @@
 # Quickstart
 
-## Rebuild The Camera-Only Result
+## Rebuild The Final Submission Result
 
 ```bash
 git clone https://github.com/WoosopYi/ReSceneScribe.git
@@ -10,6 +10,12 @@ cd ReSceneScribe
 The repository tracks code, Korean/English research summaries, and lightweight
 validation structure. Paper files, generated GLB meshes, and preview images are
 not committed.
+
+The repository is aligned with the final paper:
+
+> ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from
+> Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded
+> Investigation
 
 ## What The Documented Result Contains
 
@@ -21,7 +27,7 @@ not committed.
 | Evidence report | `research_camera_only/reports/evidence_report.md` |
 | Pipeline implementation | `scripts/run_town04_camera_only_final_pipeline.py` |
 
-## Rebuild The Camera-Only Pipeline
+## Rebuild The Camera-Centered Pipeline
 
 Install baseline Python dependencies:
 
@@ -78,5 +84,6 @@ make legacy-rebuild-viewer
 make legacy-rebuild-ply
 ```
 
-Those outputs are reference/readability material, not the main camera-only
-claim of the current repository.
+Those outputs are supplementary readability/reference material only. They are
+not the main camera-centered claim of the current repository and are not used
+for the reported Town04 reconstruction or replay metrics.

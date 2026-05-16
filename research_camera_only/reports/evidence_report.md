@@ -2,7 +2,15 @@
 
 Report date: 2026-05-16.
 
-Status: current camera-only Town04 reconstruction completed and documented.
+Status: final-submission-aligned Town04 reconstruction completed and
+documented.
+
+Paper title:
+
+```text
+ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from Vehicle-Mounted
+Sensing and Multi-Agent Simulation for Evidence-Grounded Investigation
+```
 
 ## Current Evidence
 
@@ -75,6 +83,11 @@ calibrated replay. It should not be described as a perfect reconstruction of all
 vehicle surfaces or as a physical crash-force model. Vehicle geometry is a
 dimension-aware proxy for replay readability.
 
-LiDAR-assisted renderings remain useful as optional communication references for
-road and city context, but they are not the main reconstruction sensor in the
-current repository.
+The physical pilot described in the paper checks vehicle-mounted RGB capture
+feasibility with real vehicles. The quantitative reconstruction and replay
+diagnostics in this repository come from the controlled DeepAccident Town04
+benchmark.
+
+Supplementary readability renderings may be used as communication references
+for road and city context, but they are not the main reconstruction sensor and
+are not used for the reported Town04 metrics.

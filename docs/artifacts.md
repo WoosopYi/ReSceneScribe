@@ -2,10 +2,11 @@
 
 ## Camera-Only Result Policy
 
-The current repository tracks the successful Town04 camera-only method,
-research summaries, validation scaffolding, and reproduction scripts. Paper
-files, generated GLB meshes, preview images, and viewer outputs are
-intentionally not committed.
+The current repository tracks the implementation and documentation surface for
+the final ReSceneScribe submission. It includes the successful Town04
+camera-centered method, research summaries, validation scaffolding, and
+reproduction scripts. Paper files, generated GLB meshes, preview images, and
+viewer outputs are intentionally not committed.
 
 | File | Purpose |
 |---|---|
@@ -56,7 +57,7 @@ The following are intentionally excluded from git:
 - tracked `.glb` scene files,
 - model weights such as YOLO `.pt` files.
 
-## Legacy LiDAR Artifacts
+## Supplementary Readability And Legacy Artifacts
 
 The old Town03 LiDAR-camera viewer assets remain in git history only. They are
 not part of the current tracked repository surface:
@@ -67,6 +68,7 @@ not part of the current tracked repository surface:
 | `viewer_assets/four_vehicle_static_lidar_background_ultra.glb` | Town03 high-density static LiDAR background |
 | `town03_4dashcam_collision_3dgs_45000.ply` | Legacy LiDAR/RGB hybrid release artifact |
 
-These files are not the main method in the current repository. They should be
-described, when needed, as LiDAR-assisted readability/reference visualizations
-from the earlier study.
+These files are not the main method in the current repository. When referenced,
+they should be described only as supplementary readability/reference material
+from the earlier study. They are not inputs to the reported Town04 point counts,
+alignment statistics, replay tracks, or proxy-clearance diagnostic.

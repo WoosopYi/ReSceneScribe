@@ -9,6 +9,17 @@
 아니라, DeepAccident Town04 type1-subtype2 사고 장면을 사용한
 대시캠/RGB 중심 3D reconstruction 결과다.
 
+최종 논문 제목과 맞춘 저장소 방향은 다음이다.
+
+> ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from
+> Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded
+> Investigation
+
+논문에서는 두 가지 실험 역할을 분리한다. 실제 차량 2대와 windshield-area RGB
+camera를 사용한 physical pilot은 vehicle-mounted visual evidence의 capture
+feasibility를 확인하는 단계이고, 정량 reconstruction/replay 결과는 calibration과
+vehicle metadata가 제공되는 DeepAccident Town04 benchmark에서 보고한다.
+
 주 방법은 다음 입력만을 primary reconstruction path로 사용한다.
 
 - 4대 차량의 vehicle-mounted RGB camera frames
@@ -103,4 +114,6 @@ headlights, tail lights 등을 포함한다.
 > 정적 3D 맥락을 만들고, 차량 움직임은 calibrated car-like proxy로 replay한다.
 
 기존 Town03 LiDAR 결과는 버리지 않고, 도시/도로 맥락을 더 읽기 쉽게 보여주는
-readability/reference visualization으로만 둔다.
+supplementary readability/reference visualization으로만 둔다. 이 보조 view는
+정량 point count, alignment statistic, replay track, proxy clearance 계산에는
+사용하지 않는다.

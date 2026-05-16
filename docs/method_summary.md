@@ -9,6 +9,25 @@ path. The method produces two linked outputs:
 The previous Town03 LiDAR-camera fusion result is retained only as legacy
 readability/reference material.
 
+## Paper Scope
+
+The final paper frames ReSceneScribe as a static-dynamic accident reconstruction
+workflow from vehicle-mounted RGB evidence and calibration-aware multi-agent
+simulation. The repository therefore documents the successful camera-centered
+path and keeps generated papers, images, GLB files, and raw datasets outside
+git.
+
+The paper separates two experimental roles:
+
+- a physical pilot with two real vehicles and windshield-area RGB cameras,
+  used as a capture-feasibility check for vehicle-mounted visual evidence;
+- the DeepAccident Town04 benchmark, used for metric reconstruction, calibrated
+  vehicle replay, and the reported quantitative diagnostic.
+
+The physical pilot is not used to claim collision dynamics, accident liability,
+or crash-force estimation. Those interpretations are outside the evidence
+boundary of this repository.
+
 ## Camera-Only Static Reconstruction
 
 The primary input is synchronized vehicle-mounted RGB video. In the successful
@@ -91,9 +110,14 @@ A negative proxy clearance means the simplified vehicle footprints overlap in
 the calibrated replay. It is an interpretation diagnostic, not a physical
 crash-force model or legal proof of impact.
 
-## Optional LiDAR Readability Reference
+## Supplementary Readability View
 
-LiDAR-assisted renderings can still help explain road and city layout because
-they are visually cleaner in low-texture regions. They should be described as
-readability/reference visualizations only. The deployment claim and primary
-reconstruction path are grounded in RGB videos and calibration.
+A supplementary readability view can be regenerated locally to make sparse road,
+lane, or urban context easier to inspect. This view is qualitative
+communication support only. It is not used for the reported point counts,
+alignment statistics, closest-frame diagnostic, or proxy-clearance metric.
+
+Legacy LiDAR-assisted renderings from the earlier Town03 study may be discussed
+only in this supplementary readability role. The deployment claim and primary
+Town04 reconstruction path remain grounded in vehicle-mounted RGB videos and
+DeepAccident calibration.

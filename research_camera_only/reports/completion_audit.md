@@ -2,8 +2,8 @@
 
 Audit date: 2026-05-16.
 
-Status: complete for the Town04 camera-only reconstruction result documented in
-this repository.
+Status: complete for the final-submission-aligned Town04 camera-centered
+reconstruction result documented in this repository.
 
 ## Objective Restatement
 
@@ -42,16 +42,18 @@ that make dashcam/RGB video the main method.
 
 ## Interpretation Boundary
 
-The camera-only result is a practical accident-scene reconstruction and replay
-artifact, not a claim of perfect photorealistic reconstruction. Low-texture road
-surfaces and distant urban context remain harder for RGB-only reconstruction
-than for LiDAR. Vehicle geometry is intentionally represented by calibrated
-car-like proxies rather than claimed as fully reconstructed dynamic surface
-geometry.
+The camera-centered result is a practical accident-scene reconstruction and
+replay artifact, not a claim of perfect photorealistic reconstruction. The
+physical pilot described in the paper is a capture-feasibility check, while the
+reported quantitative metrics come from the DeepAccident Town04 benchmark.
+Low-texture road surfaces and distant urban context remain harder for RGB-only
+reconstruction than for sensor-assisted readability views. Vehicle geometry is
+intentionally represented by calibrated car-like proxies rather than claimed as
+fully reconstructed dynamic surface geometry.
 
-LiDAR-assisted outputs may be retained as readability/reference visualizations,
-but the primary method and repository claim are grounded in RGB frames and
-calibration.
+Supplementary readability outputs may be retained as communication/reference
+visualizations, but the primary method and repository claim are grounded in RGB
+frames and calibration.
 
 ## Completion Decision
 

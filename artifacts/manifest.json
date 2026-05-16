@@ -1,6 +1,7 @@
 {
   "release": "v0.2-camera-only",
   "repository": "WoosopYi/ReSceneScribe",
+  "final_submission_title": "ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded Investigation",
   "primary_result": {
     "case_id": "town04_type1_subtype2_slam3r_incremental_layers",
     "scenario": "Town04_type001_subtype0002_scenario00017",
@@ -10,6 +11,11 @@
     "legacy_lidar_assets_used": false,
     "base_point_count": 545306,
     "final_point_count": 1508944
+  },
+  "paper_alignment": {
+    "physical_pilot_role": "capture-feasibility check with real vehicle-mounted RGB cameras; not collision-dynamics or liability validation",
+    "deepaccident_role": "controlled benchmark for metric reconstruction, calibrated multi-agent replay, and reported proxy-clearance diagnostics",
+    "supplementary_readability_view_role": "qualitative communication support only; not used for reported metrics"
   },
   "tracked_policy": {
     "tracks_generated_glb": false,

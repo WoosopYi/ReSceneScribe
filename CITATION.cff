@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this repository, please cite this software repository and the DeepAccident benchmark."
-title: "ReSceneScribe: Camera-Only 3D Accident Scene Reconstruction from Vehicle-Mounted RGB Videos with Calibration-Constrained Replay"
+title: "ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded Investigation"
 authors:
   - family-names: Lee
     given-names: Woosup

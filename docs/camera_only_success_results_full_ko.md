@@ -4,6 +4,8 @@
 작업 위치: `ReSceneScribe` repository root
 대상 시나리오: DeepAccident mini/local `type1_subtype2_accident` / `Town04_type001_subtype0002_scenario00017`
 정리 기준: **성공한 중간 산출물과 최종 산출물만 포함한다. 실패하거나 폐기한 시도는 제외한다.**
+최종 논문 정합성 기준:
+`ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded Investigation`
 
 ## 1. 최종 결론
 
@@ -16,6 +18,11 @@
 - 사용자가 요청한 “현재 좋은 결과를 base로 잡고 조금씩 쌓아가는 방식”을 incremental layering으로 구현했고, 최종 cumulative scene은 **1,508,944 points**까지 확장했다.
 - 차량은 영상으로 표면을 복원했다고 주장하지 않고, calibration pose와 실제 vehicle dimensions를 기반으로 한 **car-like 3D proxy**로 replay했다.
 - 연구 문서는 camera-only reconstruction을 main contribution으로 재구성했다. 현재 GitHub 커밋에는 논문 파일을 포함하지 않는다.
+
+논문에서 physical pilot은 실제 차량 2대와 windshield-area RGB camera를 사용한
+capture-feasibility 확인 단계로 설명한다. 정량 reconstruction/replay 수치와
+diagnostic은 calibration과 vehicle metadata가 제공되는 DeepAccident Town04
+benchmark 결과로 해석한다.
 
 ## 2. 연구 방향과 증거 경계
 
@@ -528,7 +535,7 @@ No-LiDAR audit은 여러 산출물에서 pass/ok로 확인되었다.
 - `lidar01` point cloud를 primary method에서 사용하지 않았음을 명시했다.
 - SLAM3R 설명을 RGB point-map/ray-distance + calibration placement로 정리했다.
 - Dynamic object 처리 표현을 `mask-assisted / when available`로 조정했다.
-- LiDAR-assisted rendering은 primary sensor가 아니라 readability/reference visualization으로 재배치했다.
+- LiDAR-assisted rendering은 primary sensor가 아니라 supplementary readability/reference visualization으로 재배치했다.
 - Frame 49 proxy clearance는 replay diagnostic이지 physical crash-force proof가 아님을 명시했다.
 
 문서 산출물 검증:
@@ -598,7 +605,7 @@ Preview assets generated locally but not tracked:
 - “SLAM3R RGB point-map predictions are placed in the shared world with calibration.”
 - “Vehicles are represented as dimension-aware calibrated proxies.”
 - “Proxy clearance is a replay diagnostic, not physical crash-force proof.”
-- “LiDAR-assisted visualizations can be used as optional readability references.”
+- “Supplementary readability visualizations can be used to make sparse road or urban context easier to inspect, but they are not used for reported metrics.”
 
 피해야 할 표현:
 

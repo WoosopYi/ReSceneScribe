@@ -14,7 +14,7 @@
 | Calibration-constrained dynamic replay | documented four-agent replay tracks | Satisfied |
 | Collision/replay diagnostic | documented closest proxy frame and clearance | Satisfied |
 | Vehicle geometry not overclaimed | docs describe car-like proxies | Satisfied |
-| LiDAR moved to reference role | README, method summary, artifacts docs | Satisfied |
+| Supplementary readability role separated from metrics | README, method summary, artifacts docs | Satisfied |
 
 ## Verification Gates
 
@@ -42,7 +42,7 @@ http://127.0.0.1:8132/outputs/town04_type1_subtype2_slam3r_incremental_layers/vi
 - DeepAccident calibration is still required for metric placement and vehicle
   replay.
 - Low-texture asphalt and distant background regions are visually weaker than
-  LiDAR-assisted references.
+  supplementary readability references.
 - Proxy clearance is a structured replay diagnostic, not a physical crash-force
   model.
 - Broader real-world validation remains future work.

@@ -1,12 +1,14 @@
 # ReSceneScribe
 
-Camera-first 3D accident scene reconstruction from vehicle-mounted RGB videos
-with calibration-constrained multi-vehicle replay.
+Static-dynamic 3D accident reconstruction from vehicle-mounted RGB evidence,
+calibration-aware scene placement, and multi-agent replay simulation.
 
-This repository now tracks the camera-only ReSceneScribe result:
+This repository tracks the implementation surface for the final ReSceneScribe
+submission:
 
-> ReSceneScribe: Camera-Only 3D Accident Scene Reconstruction from
-> Vehicle-Mounted RGB Videos with Calibration-Constrained Replay
+> ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from
+> Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded
+> Investigation
 
 ## What Is New
 
@@ -23,6 +25,23 @@ dashcam/RGB reconstruction experiment. The primary reconstruction path uses:
 The primary path does not read `lidar01` point clouds, historical LiDAR PLY/GLB
 outputs, simulator map meshes, or legacy viewer assets as reconstruction
 geometry.
+
+## Paper Alignment
+
+The final paper presents ReSceneScribe as a vehicle-mounted RGB evidence
+workflow. It separates two evaluation roles:
+
+- a physical pilot with two real vehicles and windshield-area RGB cameras,
+  used to check whether vehicle-mounted visual capture can support static
+  accident-scene reconstruction;
+- the DeepAccident Town04 benchmark evaluation, used for calibrated metric
+  alignment, static scene reconstruction, multi-agent replay, and the reported
+  proxy-clearance diagnostic.
+
+The physical pilot is a capture-feasibility study rather than a collision
+dynamics or liability validation. The quantitative replay results below come
+from the controlled DeepAccident benchmark because it provides synchronized
+vehicle-mounted RGB observations, calibration, and vehicle metadata.
 
 ## Main Result
 
@@ -69,9 +88,12 @@ http://127.0.0.1:8132/outputs/town04_type1_subtype2_slam3r_incremental_layers/vi
 ```
 
 The generated viewer shows the cumulative camera-only point scene, additive
-layers, four calibrated vehicle tracks, and car-like proxy vehicles. Raw
-DeepAccident data, generated GLB/image artifacts, and heavy model checkpoints
-are not included in git.
+layers, four calibrated vehicle tracks, and car-like proxy vehicles. A
+supplementary readability view may be regenerated locally to make sparse road
+or urban context easier to inspect, but it is qualitative only and is not used
+for the reported reconstruction counts or replay diagnostic. Raw DeepAccident
+data, generated GLB/image artifacts, and heavy model checkpoints are not
+included in git.
 
 ## Repository Layout
 
@@ -152,13 +174,14 @@ SLAM3R execution requires a CUDA-capable environment and an installed SLAM3R
 checkout. Generated GLB meshes, preview images, and viewer outputs are kept out
 of git and can be rebuilt with the commands above.
 
-## Legacy LiDAR Material
+## Supplementary Readability Material
 
 Earlier ReSceneScribe artifacts reconstructed a Town03 scene with DeepAccident
 LiDAR-camera fusion and exported a hybrid Gaussian/RGB PLY. Those files remain
-useful as a readability/reference comparison, but they are no longer the main
-deployment claim. The current repository narrative is centered on dashcam/RGB
-reconstruction.
+legacy material and are not tracked in the current camera-centered repository
+surface. When referenced, they should be described only as supplementary
+readability material for road or urban context, not as the primary source of the
+reported Town04 reconstruction or replay metrics.
 
 ## Citation
 
@@ -167,11 +190,17 @@ benchmark:
 
 ```bibtex
 @inproceedings{lee2026rescenescribe,
-  title     = {ReSceneScribe: Camera-Only 3D Accident Scene Reconstruction from Vehicle-Mounted RGB Videos with Calibration-Constrained Replay},
+  title     = {ReSceneScribe: Static-Dynamic 3D Accident Reconstruction from Vehicle-Mounted Sensing and Multi-Agent Simulation for Evidence-Grounded Investigation},
   author    = {Lee, Woosup and Kim, Yongmin},
   year      = {2026}
 }
 ```
+
+## AI-Assisted Drafting Declaration
+
+The final submission declares that generative AI assistance was used only to
+support visual drafting. The authors reviewed and finalized the figure and take
+responsibility for the scientific content of the work.
 
 ## Data And License Note
 
